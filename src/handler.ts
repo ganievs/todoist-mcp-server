@@ -10,7 +10,7 @@ import {
 } from './schemas.js';
 
 // API Token would usually be stored in .env file and accessed via process.env
-const API_TOKEN = 'your_todoist_api_token';
+const API_TOKEN = process.env.TODOIST_API_TOKEN;
 const API_URL = 'https://api.todoist.com/rest/v2';
 
 class TodoistHandler {
@@ -22,13 +22,7 @@ class TodoistHandler {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${API_TOKEN}`
         },
-        body: JSON.stringify({
-          content: input.content,
-          description: input.description,
-          due_string: input.due_string,
-          priority: input.priority,
-          project_id: input.project_id
-        })
+        body: JSON.stringify(input)
       });
 
       if (!response.ok) {

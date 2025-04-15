@@ -11,6 +11,7 @@ import {
 import todoistHandler from './handler.js';
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
+import { logger } from "./logger.js";
 
 
 const server = new Server({
@@ -23,7 +24,7 @@ const server = new Server({
 });
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
-  console.info("Received ListToolsRequest");
+  logger.info("Received ListToolsRequest");
   return {
     tools: [
       {
@@ -123,7 +124,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request): Promise<any> =>
 async function runServer() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  console.error("Todoist MCP Server running on stdio");
+  logger.info("Todoist MCP Server running on stdio");
 }
 
 export default runServer;

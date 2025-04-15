@@ -59,7 +59,6 @@ export const ErrorResponseSchema = z.object({
   error: z.string(),
 });
 
-// Export types
 export type TodoistTask = z.infer<typeof TodoistTaskSchema>;
 export type AddTaskInput = z.infer<typeof AddTaskSchema>;
 export type GetTaskInput = z.infer<typeof GetTaskSchema>;

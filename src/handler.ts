@@ -9,7 +9,6 @@ import {
   ErrorResponse,
 } from './schemas.js';
 
-// API Token would usually be stored in .env file and accessed via process.env
 const API_TOKEN = process.env.TODOIST_API_TOKEN;
 const API_URL = 'https://api.todoist.com/rest/v2';
 

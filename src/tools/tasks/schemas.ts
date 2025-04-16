@@ -46,25 +46,10 @@ export const DeleteTaskSchema = z.object({
   task_id: z.string().min(1, "Task ID is required"),
 });
 
-// Response schema for successful operations
-export const SuccessResponseSchema = z.object({
-  success: z.boolean(),
-  message: z.string(),
-  data: z.any().optional(),
-});
-
-// Response schema for error operations
-export const ErrorResponseSchema = z.object({
-  success: z.boolean(),
-  error: z.string(),
-});
-
 export type TodoistTask = z.infer<typeof TodoistTaskSchema>;
 export type AddTaskInput = z.infer<typeof AddTaskSchema>;
 export type GetTaskInput = z.infer<typeof GetTaskSchema>;
 export type CloseTaskInput = z.infer<typeof CloseTaskSchema>;
 export type ReopenTaskInput = z.infer<typeof ReopenTaskSchema>;
 export type DeleteTaskInput = z.infer<typeof DeleteTaskSchema>;
-export type SuccessResponse = z.infer<typeof SuccessResponseSchema>;
-export type ErrorResponse = z.infer<typeof ErrorResponseSchema>;
 

@@ -5,9 +5,11 @@ import {
   CloseTaskInput,
   ReopenTaskInput,
   DeleteTaskInput,
+} from './schemas.js';
+import {
   SuccessResponse,
   ErrorResponse,
-} from './schemas.js';
+} from '../types.js';
 
 const API_TOKEN = process.env.TODOIST_API_TOKEN;
 const API_URL = 'https://api.todoist.com/rest/v2';

@@ -5,35 +5,19 @@ import {
   CloseTaskInput,
   ReopenTaskInput,
   DeleteTaskInput,
+  ListTasksInput,
 } from './schemas.js';
 import {
   SuccessResponse,
   ErrorResponse,
 } from '../types.js';
+import { TodoistApi } from '@doist/todoist-api-typescript';
 
-const API_TOKEN = process.env.TODOIST_API_TOKEN;
-const API_URL = 'https://api.todoist.com/rest/v2';
 
-export const addTask = async (input: AddTaskInput): Promise<SuccessResponse | ErrorResponse> => {
+export const addTask = async (api: TodoistApi, input: AddTaskInput): Promise<SuccessResponse | ErrorResponse> => {
   try {
-    const response = await fetch(`${API_URL}/tasks`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${API_TOKEN}`
-      },
-      body: JSON.stringify(input)
-    });
 
-    if (!response.ok) {
-      const errorData = await response.json();
-      return {
-        success: false,
-        error: errorData.error || 'Failed to add task'
-      };
-    }
-
-    const task = await response.json();
+    const task = await api.addTask(input);
     return {
       success: true,
       message: 'Task added successfully',
@@ -54,24 +38,9 @@ export const addTask = async (input: AddTaskInput): Promise<SuccessResponse | Er
   }
 }
 
-export const getTask = async (input: GetTaskInput): Promise<SuccessResponse | ErrorResponse> => {
+export const getTask = async (api: TodoistApi, input: GetTaskInput): Promise<SuccessResponse | ErrorResponse> => {
   try {
-    const response = await fetch(`${API_URL}/tasks/${input.task_id}`, {
-      method: 'GET',
-      headers: {
-        'Authorization': `Bearer ${API_TOKEN}`
-      }
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
-      return {
-        success: false,
-        error: errorData.error || 'Failed to get task'
-      };
-    }
-
-    const task = await response.json();
+    const task = api.getTask(input.task_id);
     return {
       success: true,
       message: 'Task retrieved successfully',
@@ -92,23 +61,38 @@ export const getTask = async (input: GetTaskInput): Promise<SuccessResponse | Er
   }
 }
 
-export const closeTask = async (input: CloseTaskInput): Promise<SuccessResponse | ErrorResponse> => {
+export const listTasks = async (api: TodoistApi, input: ListTasksInput): Promise<SuccessResponse | ErrorResponse> => {
   try {
-    const response = await fetch(`${API_URL}/tasks/${input.task_id}/close`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${API_TOKEN}`
-      }
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
+    const tasks = await api.getTasks(input);
+    return {
+      success: true,
+      message: 'Tasks retrieved successfully',
+      //!TODO add pagination support
+      data: tasks.results,
+    };
+  } catch (error) {
+    if (error instanceof ZodError) {
       return {
         success: false,
-        error: errorData.error || 'Failed to close task'
+        error: 'Validation error: ' + error.errors.map(e => e.message).join(', ')
       };
     }
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error occurred'
+    };
+  }
+};
 
+export const closeTask = async (api: TodoistApi, input: CloseTaskInput): Promise<SuccessResponse | ErrorResponse> => {
+  try {
+    const response = await api.closeTask(input.task_id);
+    if (!response) {
+      return {
+        success: false,
+        message: 'Unable to close the task'
+      }
+    }
     return {
       success: true,
       message: 'Task closed successfully'
@@ -128,23 +112,15 @@ export const closeTask = async (input: CloseTaskInput): Promise<SuccessResponse 
   }
 }
 
-export const reopenTask = async (input: ReopenTaskInput): Promise<SuccessResponse | ErrorResponse> => {
+export const reopenTask = async (api: TodoistApi, input: ReopenTaskInput): Promise<SuccessResponse | ErrorResponse> => {
   try {
-    const response = await fetch(`${API_URL}/tasks/${input.task_id}/reopen`, {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${API_TOKEN}`
-      }
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
+    const response = await api.reopenTask(input.task_id);
+    if (!response) {
       return {
         success: false,
-        error: errorData.error || 'Failed to reopen task'
-      };
+        message: 'Unable to reopen the task'
+      }
     }
-
     return {
       success: true,
       message: 'Task reopened successfully'
@@ -164,23 +140,15 @@ export const reopenTask = async (input: ReopenTaskInput): Promise<SuccessRespons
   }
 }
 
-export const deleteTask = async (input: DeleteTaskInput): Promise<SuccessResponse | ErrorResponse> => {
+export const deleteTask = async (api: TodoistApi, input: DeleteTaskInput): Promise<SuccessResponse | ErrorResponse> => {
   try {
-    const response = await fetch(`${API_URL}/tasks/${input.task_id}`, {
-      method: 'DELETE',
-      headers: {
-        'Authorization': `Bearer ${API_TOKEN}`
-      }
-    });
-
-    if (!response.ok) {
-      const errorData = await response.json();
+    const responce = api.deleteTask(input.task_id);
+    if (!responce) {
       return {
         success: false,
-        error: errorData.error || 'Failed to delete task'
+        message: 'Unable to delete the task'
       };
     }
-
     return {
       success: true,
       message: 'Task deleted successfully'

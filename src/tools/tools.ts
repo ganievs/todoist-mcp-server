@@ -1,10 +1,16 @@
 import { z } from 'zod';
 import { ToolDefinition, ToolHandler, ToolResponse } from './types.js';
+import { TodoistApi } from '@doist/todoist-api-typescript';
 
 
 export class ToolRegistry {
+  private readonly api: TodoistApi;
   private tools: Map<string, ToolDefinition> = new Map();
   private handlers: Map<string, ToolHandler> = new Map();
+
+  constructor(api: TodoistApi) {
+    this.api = api;
+  }
 
   /**
    * Register a tool with its definition and handler
@@ -42,7 +48,10 @@ export class ToolRegistry {
   /**
    * Handle the CallTool request
    */
-  async handleCallTool(request: any): Promise<ToolResponse> {
+  async handleCallTool(request: {
+    params: { name: string; _meta?: any; arguments?: Record<string, any> };
+    method: string;
+  }): Promise<ToolResponse> {
     console.error(`[INFO] Received CallTool request for ${request.params.name}`);
 
     try {
@@ -59,7 +68,7 @@ export class ToolRegistry {
 
       const args = toolHandler.schema.parse(request.params.arguments);
 
-      const result = await toolHandler.handler(args);
+      const result = await toolHandler.handler(this.api, args);
 
       return {
         content: [{

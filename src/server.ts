@@ -3,7 +3,12 @@ import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprot
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { ToolRegistry } from "./tools/tools.js";
 import { registerTaskTools } from "./tools/tasks/index.js";
+import { TodoistApi } from "@doist/todoist-api-typescript";
 
+// Initialize API with access token
+const API_TOKEN = process.env.TODOIST_API_TOKEN ?? '';
+
+const api = new TodoistApi(API_TOKEN)
 
 const server = new Server({
   name: "todoist-mcp-server",
@@ -14,7 +19,7 @@ const server = new Server({
   }
 });
 
-const tools = new ToolRegistry();
+const tools = new ToolRegistry(api);
 registerTaskTools(tools);
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {

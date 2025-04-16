@@ -31,6 +31,21 @@ export const GetTaskSchema = z.object({
   task_id: z.string().min(1, "Task ID is required"),
 });
 
+// Schema for listing and filtering tasks
+export const ListTasksSchema = z.object({
+  project_id: z.string().optional(),
+  label_id: z.string().optional(),
+  section_id: z.string().optional(),
+  completed: z.boolean().optional(),
+  due_before: z.string().optional(),
+  due_after: z.string().optional(),
+  due_today: z.boolean().optional(),
+  limit: z.number().min(1).max(100).optional(),
+  offset: z.number().min(0).optional(),
+  sort: z.enum(['date', 'priority', 'content']).optional(),
+  sort_direction: z.enum(['asc', 'desc']).optional(),
+});
+
 // Input schema for closing a task
 export const CloseTaskSchema = z.object({
   task_id: z.string().min(1, "Task ID is required"),
@@ -49,6 +64,7 @@ export const DeleteTaskSchema = z.object({
 export type TodoistTask = z.infer<typeof TodoistTaskSchema>;
 export type AddTaskInput = z.infer<typeof AddTaskSchema>;
 export type GetTaskInput = z.infer<typeof GetTaskSchema>;
+export type ListTasksInput = z.infer<typeof ListTasksSchema>;
 export type CloseTaskInput = z.infer<typeof CloseTaskSchema>;
 export type ReopenTaskInput = z.infer<typeof ReopenTaskSchema>;
 export type DeleteTaskInput = z.infer<typeof DeleteTaskSchema>;

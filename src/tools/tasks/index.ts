@@ -4,14 +4,16 @@ import {
   GetTaskSchema,
   CloseTaskSchema,
   ReopenTaskSchema,
-  DeleteTaskSchema
+  DeleteTaskSchema,
+  ListTasksSchema
 } from './schemas.js';
 import {
   addTask,
   getTask,
   closeTask,
   reopenTask,
-  deleteTask
+  deleteTask,
+  listTasks
 } from './operations.js';
 import { zodToJsonSchema } from 'zod-to-json-schema';
 
@@ -37,6 +39,17 @@ export const registerTaskTools = (registry: ToolRegistry) => {
       {
         schema: GetTaskSchema,
         handler: getTask
+      }
+    )
+    .registerTool(
+      {
+        name: "list_tasks",
+        description: "List and filter TODO tasks",
+        inputSchema: zodToJsonSchema(ListTasksSchema)
+      },
+      {
+        schema: ListTasksSchema,
+        handler: listTasks
       }
     )
     .registerTool(

@@ -1,3 +1,4 @@
+import { TodoistApi } from '@doist/todoist-api-typescript';
 import { z } from 'zod';
 
 export interface ToolDefinition {
@@ -19,7 +20,7 @@ export interface ErrorResponse {
 
 export interface ToolHandler {
   schema: z.ZodType<any>;
-  handler: (args: any) => Promise<SuccessResponse | ErrorResponse>;
+  handler: (api: TodoistApi, args: any) => Promise<SuccessResponse | ErrorResponse>;
 }
 
 export interface ToolResponse {

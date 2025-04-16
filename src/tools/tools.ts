@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { logger } from '../logger.js';
 import { ToolDefinition, ToolHandler, ToolResponse } from './types.js';
 
 
@@ -13,7 +12,7 @@ export class ToolRegistry {
   registerTool(tool: ToolDefinition, handler: ToolHandler): ToolRegistry {
     this.tools.set(tool.name, tool);
     this.handlers.set(tool.name, handler);
-    logger.debug(`Registered tool: ${tool.name}`);
+    console.error(`[DEBUG] Registered tool: ${tool.name}`);
     return this;
   }
 
@@ -22,7 +21,7 @@ export class ToolRegistry {
    */
 
   ListTools(): ToolDefinition[] {
-    logger.info("Received ListToolsRequest");
+    console.error(`[INFO] Received ListToolsRequest`);
     return Array.from(this.tools.values());
   }
 
@@ -44,7 +43,7 @@ export class ToolRegistry {
    * Handle the CallTool request
    */
   async handleCallTool(request: any): Promise<ToolResponse> {
-    logger.info(`Received CallTool request for ${request.params.name}`);
+    console.error(`[INFO] Received CallTool request for ${request.params.name}`);
 
     try {
       if (!request.params.arguments) {

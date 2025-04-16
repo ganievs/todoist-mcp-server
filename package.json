@@ -19,7 +19,6 @@
   },
   "dependencies": {
     "@doist/todoist-api-typescript": "^4.0.1",
-    "@modelcontextprotocol/sdk": "^1.9.0",
-    "winston": "^3.17.0"
+    "@modelcontextprotocol/sdk": "^1.9.0"
   }
 }

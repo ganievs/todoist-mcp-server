@@ -1,7 +1,6 @@
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { logger } from "./logger.js";
 import { ToolRegistry } from "./tools/tools.js";
 import { registerTaskTools } from "./tools/tasks/index.js";
 
@@ -34,7 +33,7 @@ server.setRequestHandler(CallToolRequestSchema, async (request: {
 async function runServer() {
   const transport = new StdioServerTransport();
   await server.connect(transport);
-  logger.info("Todoist MCP Server running on stdio");
+  console.error(`[INFO] Todoist MCP Server running on stdio`);
 }
 
 export default runServer;

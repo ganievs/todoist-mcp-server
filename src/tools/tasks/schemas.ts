@@ -1,71 +1,82 @@
 import { z } from 'zod';
 
-// Base schema for Task
-export const TodoistTaskSchema = z.object({
-  id: z.string(),
-  content: z.string(),
-  description: z.string().optional(),
-  due: z.object({
-    date: z.string().optional(),
-    string: z.string().optional(),
-    recurring: z.boolean().optional(),
-  }).optional(),
-  priority: z.number().min(1).max(4).optional(),
-  project_id: z.string().optional(),
-  completed: z.boolean().optional(),
-  created_at: z.string(),
-  updated_at: z.string().optional(),
-});
-
 // Input schema for adding a task
 export const AddTaskSchema = z.object({
-  content: z.string().min(1, "Content is required"),
-  description: z.string().optional(),
-  due_string: z.string().optional(),
-  priority: z.number().min(1).max(4).optional(),
-  project_id: z.string().optional(),
+  content: z.string().min(1, `Content is required`)
+    .describe(
+      `The task content (required).
+       The text of the task.
+       This value may contain markdown-formatted text and hyperlinks`
+    ),
+
+  description: z.string().optional()
+    .describe(
+      `A description for the task.
+       This value may contain markdown-formatted text and hyperlinks.`
+    ),
+
+  //!TODO: add due and deadline fields
+
+  priority: z.number().min(1).max(4).optional()
+    .describe(
+      `Task priority from 1 (normal) to 4 (very urgent)`
+    ),
+
+  project_id: z.string().optional()
+    .describe(
+      `ID of the project to add the task to.
+       If not set, task will be added to the inbox`
+    ),
 });
 
 // Input schema for retrieving a task
 export const GetTaskSchema = z.object({
-  task_id: z.string().min(1, "Task ID is required"),
+  task_id: z.string().min(1, `Task ID is required`)
+    .describe(`The ID of the task to retrieve`),
 });
 
 // Schema for listing and filtering tasks
 export const ListTasksSchema = z.object({
-  project_id: z.string().optional(),
-  label_id: z.string().optional(),
-  section_id: z.string().optional(),
-  completed: z.boolean().optional(),
-  due_before: z.string().optional(),
-  due_after: z.string().optional(),
-  due_today: z.boolean().optional(),
-  limit: z.number().min(1).max(100).optional(),
-  offset: z.number().min(0).optional(),
-  sort: z.enum(['date', 'priority', 'content']).optional(),
-  sort_direction: z.enum(['asc', 'desc']).optional(),
+  project_id: z.string().optional()
+    .describe(`Filter tasks by project ID`),
+
+  label: z.string().optional()
+    .describe(`Filter tasks by label name`),
+
+  section_id: z.string().optional()
+    .describe(`Filter tasks by section ID`),
+
+  parent_id: z.string().optional()
+    .describe(`Filter tasks by parent task ID`),
+
+  limit: z.number().min(1).max(200).optional()
+    .describe(
+      `Maximum number of items to return (1-200).
+       Default: 50`
+    ),
 });
 
-// Input schema for closing a task
+// Input schema for closing a task (marking as complete)
 export const CloseTaskSchema = z.object({
-  task_id: z.string().min(1, "Task ID is required"),
+  task_id: z.string().min(1, `Task ID is required`)
+    .describe(`The ID of the task to close/complete`),
 });
 
-// Input schema for reopening a task
+// Input schema for reopening a task (marking as incomplete)
 export const ReopenTaskSchema = z.object({
-  task_id: z.string().min(1, "Task ID is required"),
+  task_id: z.string().min(1, `Task ID is required`)
+    .describe(`The ID of the task to reopen/mark as incomplete`),
 });
 
 // Input schema for deleting a task
 export const DeleteTaskSchema = z.object({
-  task_id: z.string().min(1, "Task ID is required"),
+  task_id: z.string().min(1, `Task ID is required`)
+    .describe(`The ID of the task to delete`),
 });
 
-export type TodoistTask = z.infer<typeof TodoistTaskSchema>;
 export type AddTaskInput = z.infer<typeof AddTaskSchema>;
 export type GetTaskInput = z.infer<typeof GetTaskSchema>;
 export type ListTasksInput = z.infer<typeof ListTasksSchema>;
 export type CloseTaskInput = z.infer<typeof CloseTaskSchema>;
 export type ReopenTaskInput = z.infer<typeof ReopenTaskSchema>;
 export type DeleteTaskInput = z.infer<typeof DeleteTaskSchema>;
-

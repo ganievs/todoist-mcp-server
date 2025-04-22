@@ -2,7 +2,7 @@ import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { CallToolRequestSchema, ListToolsRequestSchema } from "@modelcontextprotocol/sdk/types.js";
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import { ToolRegistry } from "./tools/tools.js";
-import { registerTaskTools } from "./tools/tasks/index.js";
+import { registerTaskTools } from "./tools/task/index.js";
 import { TodoistApi } from "@doist/todoist-api-typescript";
 
 // Initialize API with access token

@@ -27,6 +27,10 @@ export const AddTaskSchema = z.object({
       `ID of the project to add the task to.
        If not set, task will be added to the inbox`
     ),
+  section_id: z.string().optional()
+    .describe(
+      `ID of the section to add the task to`
+    ),
 });
 
 // Input schema for retrieving a task

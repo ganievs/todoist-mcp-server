@@ -1,6 +1,7 @@
 import { ZodError } from 'zod';
 import {
   AddTaskInput,
+  UpdateTaskInput,
   GetTaskInput,
   CloseTaskInput,
   ReopenTaskInput,
@@ -21,6 +22,35 @@ export const addTask = async (api: TodoistApi, input: AddTaskInput): Promise<Suc
     return {
       success: true,
       message: 'Task added successfully',
+      data: task
+    };
+  } catch (error) {
+    if (error instanceof ZodError) {
+      return {
+        success: false,
+        error: 'Validation error: ' + error.errors.map(e => e.message).join(', ')
+      };
+    }
+
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Unknown error occurred'
+    };
+  }
+}
+
+export const updateTask = async (api: TodoistApi, input: UpdateTaskInput): Promise<SuccessResponse | ErrorResponse> => {
+  try {
+
+    const task = await api.updateTask(input.task_id, {
+      content: input.content,
+      description: input.description,
+      priority: input.priority,
+      labels: input.labels,
+    });
+    return {
+      success: true,
+      message: 'Task updated successfully',
       data: task
     };
   } catch (error) {

@@ -22,6 +22,11 @@ export const AddTaskSchema = z.object({
       `Task priority from 1 (normal) to 4 (very urgent)`
     ),
 
+  labels: z.array(z.string()).optional()
+    .describe(
+      `The task labels`
+    ),
+
   project_id: z.string().optional()
     .describe(
       `ID of the project to add the task to.
@@ -30,6 +35,37 @@ export const AddTaskSchema = z.object({
   section_id: z.string().optional()
     .describe(
       `ID of the section to add the task to`
+    ),
+});
+
+// Input schema for updating a task
+export const UpdateTaskSchema = z.object({
+  task_id: z.string().min(1, `Task ID is required`)
+    .describe(`The ID of the task to update`),
+
+  content: z.string().min(1, `Content is required`)
+    .describe(
+      `The task content (required).
+       The text of the task.
+       This value may contain markdown-formatted text and hyperlinks`
+    ),
+
+  description: z.string().optional()
+    .describe(
+      `A description for the task.
+       This value may contain markdown-formatted text and hyperlinks.`
+    ),
+
+  //!TODO: add due and deadline fields
+
+  priority: z.number().min(1).max(4).optional()
+    .describe(
+      `Task priority from 1 (normal) to 4 (very urgent)`
+    ),
+
+  labels: z.array(z.string()).optional()
+    .describe(
+      `The task labels`
     ),
 });
 
@@ -80,6 +116,7 @@ export const DeleteTaskSchema = z.object({
 
 export type AddTaskInput = z.infer<typeof AddTaskSchema>;
 export type GetTaskInput = z.infer<typeof GetTaskSchema>;
+export type UpdateTaskInput = z.infer<typeof UpdateTaskSchema>;
 export type ListTasksInput = z.infer<typeof ListTasksSchema>;
 export type CloseTaskInput = z.infer<typeof CloseTaskSchema>;
 export type ReopenTaskInput = z.infer<typeof ReopenTaskSchema>;

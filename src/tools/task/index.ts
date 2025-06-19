@@ -1,6 +1,7 @@
 import { ToolRegistry } from '../tools.js';
 import {
   AddTaskSchema,
+  UpdateTaskSchema,
   GetTaskSchema,
   CloseTaskSchema,
   ReopenTaskSchema,
@@ -9,6 +10,7 @@ import {
 } from './schemas.js';
 import {
   addTask,
+  updateTask,
   getTask,
   closeTask,
   reopenTask,
@@ -28,6 +30,17 @@ export const registerTaskTools = (registry: ToolRegistry) => {
       {
         schema: AddTaskSchema,
         handler: addTask
+      }
+    )
+    .registerTool(
+      {
+        name: "update_task",
+        description: "Update a TODO task",
+        inputSchema: zodToJsonSchema(UpdateTaskSchema)
+      },
+      {
+        schema: UpdateTaskSchema,
+        handler: updateTask
       }
     )
     .registerTool(

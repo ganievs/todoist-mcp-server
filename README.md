@@ -72,7 +72,7 @@ export TODOIST_API_TOKEN="your_api_token_here"
 ```
 
 To get your API token:
-1. Go to [Todoist Settings](https://todoist.com/prefs/integrations)
+1. Go to [Todoist Settings](https://app.todoist.com/app/settings/integrations/developer)
 2. Scroll down to the "API token" section
 3. Copy your personal API token
 

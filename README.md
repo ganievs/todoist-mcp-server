@@ -2,48 +2,6 @@
 
 A Model Context Protocol (MCP) server that provides tools for interacting with Todoist, enabling AI assistants to manage tasks, projects, labels, sections, and comments through the Todoist API.
 
-## Features
-
-The server provides comprehensive tools for managing Todoist data:
-
-### Task Management
-- **add_task** - Create new TODO tasks with content, description, priority, and labels
-- **update_task** - Modify existing tasks
-- **get_task** - Retrieve specific task details
-- **list_tasks** - List and filter tasks
-- **close_task** - Mark tasks as completed
-- **reopen_task** - Reopen completed tasks
-- **delete_task** - Delete tasks permanently
-
-### Project Management
-- **add_project** - Create new projects
-- **get_project** - Get project details
-- **list_projects** - List all projects
-- **update_project** - Modify project settings
-- **delete_project** - Delete projects
-- **get_project_collaborators** - View project collaborators
-
-### Label Management
-- **add_label** - Create new labels
-- **get_label** - Get label details
-- **list_labels** - List all labels
-- **update_label** - Modify labels
-- **delete_label** - Delete labels
-
-### Section Management
-- **add_section** - Create project sections
-- **get_section** - Get section details
-- **list_sections** - List sections
-- **update_section** - Modify sections
-- **delete_section** - Delete sections
-
-### Comment Management
-- **add_comment** - Add comments to tasks/projects
-- **get_comment** - Get comment details
-- **list_comments** - List comments
-- **update_comment** - Update comments
-- **delete_comment** - Delete comments
-
 ## Installation
 
 1. Clone the repository:

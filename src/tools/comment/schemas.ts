@@ -51,7 +51,7 @@ export const ListCommentsSchema = z.object({
     .describe('Filter comments by task ID - returns all comments for the specified task'),
 
   project_id: z.string().optional()
-    .describe('Filter comments by project ID - returns all comments for tasks in the specified project'),
+    .describe('Filter comments by project ID - returns all project level comments for tasks in the specified project'),
 
   cursor: z.string().nullable().optional()
     .describe('Cursor for pagination - use the next_cursor from previous response'),

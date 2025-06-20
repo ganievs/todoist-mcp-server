@@ -8,7 +8,8 @@ export const AttachmentSchema = z.object({
   file_type: z.string().optional()
     .describe('The file MIME type (e.g., "image/png", "application/pdf")'),
 
-  file_url: z.string().url().optional()
+  // TODO: implement file upload/delete
+  file_url: z.string().url()
     .describe('The file URL - must be a valid URL'),
 
   resource_type: z.string().optional()

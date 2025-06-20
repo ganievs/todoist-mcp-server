@@ -3,8 +3,6 @@ import {
   AddCommentSchema,
   UpdateCommentSchema,
   GetCommentSchema,
-  CloseCommentSchema,
-  ReopenCommentSchema,
   DeleteCommentSchema,
   ListCommentsSchema
 } from './schemas.js';
@@ -12,8 +10,6 @@ import {
   addComment,
   updateComment,
   getComment,
-  closeComment,
-  reopenComment,
   deleteComment,
   listComments
 } from './operations.js';
@@ -63,28 +59,6 @@ export const registerCommentTools = (registry: ToolRegistry) => {
       {
         schema: ListCommentsSchema,
         handler: listComments
-      }
-    )
-    .registerTool(
-      {
-        name: "close_comment",
-        description: "Close a comment",
-        inputSchema: zodToJsonSchema(CloseCommentSchema)
-      },
-      {
-        schema: CloseCommentSchema,
-        handler: closeComment
-      }
-    )
-    .registerTool(
-      {
-        name: "reopen_comment",
-        description: "Reopen a comment",
-        inputSchema: zodToJsonSchema(ReopenCommentSchema)
-      },
-      {
-        schema: ReopenCommentSchema,
-        handler: reopenComment
       }
     )
     .registerTool(

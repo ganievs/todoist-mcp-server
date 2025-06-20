@@ -6,6 +6,7 @@ import { registerTaskTools } from "./tools/task/index.js";
 import { registerProjectTools } from "./tools/project/index.js";
 import { registerSectionTools } from "./tools/section/index.js";
 import { registerLabelTools } from "./tools/label/index.js";
+import { registerCommentTools } from "./tools/comment/index.js";
 import { TodoistApi } from "@doist/todoist-api-typescript";
 
 // Initialize API with access token
@@ -27,6 +28,7 @@ registerTaskTools(tools);
 registerProjectTools(tools);
 registerSectionTools(tools);
 registerLabelTools(tools);
+registerCommentTools(tools);
 
 server.setRequestHandler(ListToolsRequestSchema, async () => {
   return {

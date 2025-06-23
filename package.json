@@ -8,12 +8,14 @@
     "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\""
   },
   "files": [
-    "build"
+    "build",
+    "README.md",
+    "LICENSE"
   ],
   "keywords": [],
-  "author": "",
+  "author": "Shamil Ganiev <mail@ganiev.link>",
   "license": "MIT",
-  "description": "",
+  "description": "MCP server for Todoist",
   "devDependencies": {
     "@eslint/js": "^9.24.0",
     "@types/node": "^22.14.1",

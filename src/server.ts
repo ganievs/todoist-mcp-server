@@ -8,15 +8,22 @@ import { registerSectionTools } from "./tools/section/index.js";
 import { registerLabelTools } from "./tools/label/index.js";
 import { registerCommentTools } from "./tools/comment/index.js";
 import { TodoistApi } from "@doist/todoist-api-typescript";
-import { readFileSync } from "fs";
-import { join } from "path";
+import { readFileSync } from 'fs';
+import { fileURLToPath } from 'url';
+import { dirname, join } from 'path';
 
 // Initialize API with access token
 const API_TOKEN = process.env.TODOIST_API_TOKEN ?? '';
 
 const api = new TodoistApi(API_TOKEN)
 
-const packageJson = JSON.parse(readFileSync(join(process.cwd(), 'package.json'), 'utf-8'));
+// Get the directory of the current module
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
+const packageJson = JSON.parse(
+  readFileSync(join(__dirname, '../package.json'), 'utf8')
+);
 
 const server = new Server({
   name: "todoist-mcp-server",

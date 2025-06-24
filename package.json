@@ -3,6 +3,9 @@
   "version": "0.6.0",
   "main": "index.js",
   "type": "module",
+  "bin": {
+    "todoist-mcp-server": "build/index.js"
+  },
   "scripts": {
     "lint": "eslint .",
     "build": "tsc && node -e \"require('fs').chmodSync('build/index.js', '755')\""

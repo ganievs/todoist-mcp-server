@@ -8,6 +8,9 @@ on:
 permissions:
   contents: write
 
+env:
+  REGISTRY: ghcr.io
+
 jobs:
   release:
     runs-on: ubuntu-latest

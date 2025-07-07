@@ -4,87 +4,58 @@ A Model Context Protocol (MCP) server that provides tools for interacting with
 Todoist, enabling AI assistants to manage tasks, projects, labels, sections, and
 comments through the Todoist API.
 
-## Installation
-
-1. Clone the repository:
-
-```bash
-git clone https://github.com/ganievs/todoist-mcp-server.git
-cd todoist-mcp-server
-```
-
-2. Install dependencies:
-
-```bash
-npm install
-```
-
-3. Build the project:
-
-```bash
-npm run build
-```
-
 ## Configuration
 
-### Environment Variables
+This server requires a Todoist API token to function.
 
-Set your Todoist API token:
+1. **Get your API token:**
+   - Go to
+     [Todoist Settings](https://app.todoist.com/app/settings/integrations/developer).
+   - Scroll down to the "API token" section.
+   - Copy your personal API token.
 
-```bash
-export TODOIST_API_TOKEN="your_api_token_here"
-```
+2. **Configure your MCP client:** Add the server to your MCP client
+   configuration, making sure to include your API token. For Claude Desktop, you
+   would add one of the following to your `claude_desktop_config.json`:
 
-To get your API token:
+   #### Docker
 
-1. Go to
-   [Todoist Settings](https://app.todoist.com/app/settings/integrations/developer)
-2. Scroll down to the "API token" section
-3. Copy your personal API token
+   ```json
+   {
+     "mcpServers": {
+       "todoist": {
+         "command": "docker",
+         "args": [
+           "run",
+           "-i",
+           "--rm",
+           "-e",
+           "TODOIST_API_TOKEN=your_api_token_here",
+           "ghcr.io/ganievs/todoist-mcp-server:latest"
+         ]
+       }
+     }
+   }
+   ```
 
-### MCP Client Configuration
+   #### NPX
 
-Add the server to your MCP client configuration. For Claude Desktop, add to your
-`claude_desktop_config.json`:
-
-#### Docker
-
-```json
-{
-  "mcpServers": {
-    "filesystem": {
-      "command": "docker",
-      "args": [
-        "run",
-        "-i",
-        "--rm",
-        "-e",
-        "TODOIST_API_TOKEN=your_api_token_here",
-        "ghcr.io/ganievs/todoist-mcp-server:latest"
-      ]
-    }
-  }
-}
-```
-
-#### NPX
-
-```json
-{
-  "mcpServers": {
-    "todoist": {
-      "command": "npx",
-      "args": [
-        "-y",
-        "@ganiev/todoist-mcp-server"
-      ],
-      "env": {
-        "TODOIST_API_TOKEN": "your_api_token_here"
-      }
-    }
-  }
-}
-```
+   ```json
+   {
+     "mcpServers": {
+       "todoist": {
+         "command": "npx",
+         "args": [
+           "-y",
+           "@ganiev/todoist-mcp-server"
+         ],
+         "env": {
+           "TODOIST_API_TOKEN": "your_api_token_here"
+         }
+       }
+     }
+   }
+   ```
 
 ## Usage
 
@@ -96,6 +67,31 @@ your MCP client:
 - "Add a comment to the task about the meeting"
 - "Create a new project for my vacation planning"
 - "Show me all tasks with the 'urgent' label"
+
+## Development
+
+To set up the project for development:
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/ganievs/todoist-mcp-server.git
+   cd todoist-mcp-server
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+3. **Run the linter:**
+   ```bash
+   npm run lint
+   ```
+
+4. **Build the project:**
+   ```bash
+   npm run build
+   ```
 
 ## Support
 
